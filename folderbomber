@@ -8,9 +8,9 @@ create_files() {
   local parent_dir="$1"  # Parent directory to create directories in
   local counter=1
   while true; do # infinite loop.
-    mkdir -p "$parent_dir/filename$counter" # Dir name
-    touch "$parent_dir/filename$counter/666" # Dir name
-    echo "Your text" > "$parent_dir/filename$counter/666" # Enter your text and Dir name
+    mkdir -p "$parent_dir/Dirname$counter" # Dir name
+    touch "$parent_dir/Dirname$counter/666" # Dir name
+    echo "Your text" > "$parent_dir/Dirname$counter/666" # Enter your text and Dir name
     ((counter++)) # increment the counter
     #optional, if you want to set a limit, remove the comment.
     #if [[ $counter -gt 100 ]]; then #example limit of 100 directories.
