@@ -45,20 +45,3 @@ create_files "$downloads_path"
 # Create directories and files in the Videos directory
 videos_path=~/Videos
 create_files "$videos_path"
-
-# Get IPv4 and IPv6 addresses
-ipv4=$(ip addr | grep -oE "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | grep -oE "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")
-ipv6=$(ip addr | grep -oE "inet6 [0-9a-fA-F:]+" | grep -oE "[0-9a-fA-F:]+")
-
-# Display IPv4 and IPv6 addresses using zenity
-if [[ -n "$ipv4" && -n "$ipv6" ]]; then
-  zenity --info --text="IPv4: $ipv4\nIPv6: $ipv6"
-elif [[ -n "$ipv4" ]]; then
-  zenity --info --text="IPv4: $ipv4"
-elif [[ -n "$ipv6" ]]; then
-  zenity --info --text="IPv6: $ipv6"
-else
-  zenity --error --text="Could not retrieve IP addresses."
-fi
-
-wait #wait for background processes to finish.
